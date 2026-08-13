@@ -104,14 +104,16 @@ def test_appointment_endpoints_and_validation():
 
     patient_id = patient.json()["id"]
     doctor_id = doctor.json()["id"]
-    appointment_time = datetime(2026, 9, 2, 10, 0, 0, tzinfo=UTC)
+    appointment_start = datetime(2026, 9, 2, 10, 0, 0, tzinfo=UTC)
+    appointment_end = datetime(2026, 9, 2, 10, 30, 0, tzinfo=UTC)
 
     create_appointment = client.post(
         "/appointments",
         json={
             "patient_id": patient_id,
             "doctor_id": doctor_id,
-            "appointment_date": appointment_time.isoformat(),
+            "appointment_start": appointment_start.isoformat(),
+            "appointment_end": appointment_end.isoformat(),
             "reason": "Follow-up",
         },
     )
@@ -136,7 +138,8 @@ def test_appointment_endpoints_and_validation():
         json={
             "patient_id": patient_id,
             "doctor_id": doctor_id,
-            "appointment_date": appointment_time.isoformat(),
+            "appointment_start": appointment_start.isoformat(),
+            "appointment_end": appointment_end.isoformat(),
             "reason": "Duplicate",
         },
     )
@@ -148,7 +151,8 @@ def test_appointment_endpoints_and_validation():
         json={
             "patient_id": 999,
             "doctor_id": doctor_id,
-            "appointment_date": datetime(2026, 9, 3, 10, 0, 0, tzinfo=UTC).isoformat(),
+            "appointment_start": datetime(2026, 9, 3, 10, 0, 0, tzinfo=UTC).isoformat(),
+            "appointment_end": datetime(2026, 9, 3, 10, 30, 0, tzinfo=UTC).isoformat(),
             "reason": "No patient",
         },
     )
@@ -160,7 +164,8 @@ def test_appointment_endpoints_and_validation():
         json={
             "patient_id": patient_id,
             "doctor_id": 999,
-            "appointment_date": datetime(2026, 9, 4, 10, 0, 0, tzinfo=UTC).isoformat(),
+            "appointment_start": datetime(2026, 9, 4, 10, 0, 0, tzinfo=UTC).isoformat(),
+            "appointment_end": datetime(2026, 9, 4, 10, 30, 0, tzinfo=UTC).isoformat(),
             "reason": "No doctor",
         },
     )

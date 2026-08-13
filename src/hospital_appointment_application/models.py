@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 
 from sqlalchemy import DateTime, ForeignKey, String
@@ -79,7 +81,12 @@ class Appointment(Base):
         nullable=False,
     )
 
-    appointment_date: Mapped[datetime] = mapped_column(
+    appointment_start: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+    )
+
+    appointment_end: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
     )

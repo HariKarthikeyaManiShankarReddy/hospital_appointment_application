@@ -14,6 +14,13 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 from hospital_appointment_application.database import Base
 
+# Import models to register them with Base
+from hospital_appointment_application.models import (  # noqa: F401
+    Appointment,
+    Doctor,
+    Patient,
+)
+
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel

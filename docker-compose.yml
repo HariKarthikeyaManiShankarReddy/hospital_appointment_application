@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  hospital-api:
+    build:
+      context: .
+    container_name: hospital-appointment-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: sqlite:////app/data/hospital.db
+    volumes:
+      - hospital_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  hospital_data:

@@ -39,7 +39,8 @@ class DoctorResponse(DoctorBase):
 class AppointmentBase(BaseModel):
     patient_id: int
     doctor_id: int
-    appointment_date: datetime
+    appointment_start: datetime
+    appointment_end: datetime
     reason: str | None = None
 
 

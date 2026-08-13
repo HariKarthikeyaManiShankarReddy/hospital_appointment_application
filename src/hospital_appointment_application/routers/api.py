@@ -75,16 +75,17 @@ def create_appointment(appointment: AppointmentCreate, db: Annotated[Session, De
     if not db.query(Patient).filter(Patient.id == appointment.patient_id).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Patient not found")
 
-    # Business Rule: prevent duplicate appointment times for the same doctor
+    # Business Rule: prevent overlapping appointment times for the same doctor
     overlap = db.query(Appointment).filter(
         Appointment.doctor_id == appointment.doctor_id,
-        Appointment.appointment_date == appointment.appointment_date,
+        Appointment.appointment_start < appointment.appointment_end,
+        Appointment.appointment_end > appointment.appointment_start,
     ).first()
 
     if overlap:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="An appointment already exists for this doctor at the same date/time"
+            detail="An overlapping appointment already exists for this doctor"
         )
 
     db_appointment = Appointment(**appointment.model_dump())
