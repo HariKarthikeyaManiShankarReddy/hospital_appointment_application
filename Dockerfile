@@ -10,9 +10,11 @@ WORKDIR /app
 COPY pyproject.toml ./
 COPY README.md ./
 COPY src ./src
+COPY alembic.ini ./alembic.ini
+COPY alembic ./alembic
 
-RUN pip install --upgrade pip && \
-    pip install .
+RUN python -m pip install --upgrade pip && \
+    python -m pip install .
 
 EXPOSE 8000
 
